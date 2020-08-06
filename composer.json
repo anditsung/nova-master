@@ -8,7 +8,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.1.0",
-        "tsung/nova-user-management": "*",
+        "tsung/nova-user-management": "^0.0.12",
         "ebess/advanced-nova-media-library": "3.2.0"
     },
     "autoload": {
