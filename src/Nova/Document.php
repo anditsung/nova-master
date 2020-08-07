@@ -91,9 +91,6 @@ class Document extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name')
-                ->rules('required'),
-
             Text::make('Filename')
                 ->displayUsing(function() {
                     return $this->original_name;
@@ -110,6 +107,7 @@ class Document extends Resource
                     $acceptedType = [
                         'image/apng',
                         'image/bmp',
+                        'image/x-ms-bmp',
                         'image/gif',
                         'image/x-icon',
                         'image/jpeg',
@@ -121,6 +119,8 @@ class Document extends Resource
                     ];
 
                     $fileMimeType = mime_content_type(storage_path("app/public/") . $value);
+
+                    return $fileMimeType;
 
                     if( in_array($fileMimeType, $acceptedType) ) {
 
