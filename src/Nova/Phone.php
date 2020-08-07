@@ -13,10 +13,13 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
+use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
 class Phone extends Resource
 {
     use ResourceAuthorization;
+    use ResourceRedirectIndex;
+
     /**
      * The model the resource corresponds to.
      *
@@ -114,41 +117,5 @@ class Phone extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Return the location to redirect the user after creation.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Laravel\Nova\Resource  $resource
-     * @return string
-     */
-    public static function redirectAfterCreate(NovaRequest $request, $resource)
-    {
-        if ( $request->viaResource ) {
-
-            return '/resources/' . $request->viaResource . '/' . $request->viaResourceId;
-
-        }
-
-        return '/resources/'.static::uriKey();
-    }
-
-    /**
-     * Return the location to redirect the user after update.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Laravel\Nova\Resource  $resource
-     * @return string
-     */
-    public static function redirectAfterUpdate(NovaRequest $request, $resource)
-    {
-        if ( $request->viaResource ) {
-
-            return '/resources/' . $request->viaResource . '/' . $request->viaResourceId;
-
-        }
-
-        return '/resources/'.static::uriKey();
     }
 }

@@ -15,4 +15,20 @@ return [
 
     ],
 
+    "document" => [
+        'accepted_type' => [
+            'image/apng',
+            'image/bmp',
+            'image/x-ms-bmp',
+            'image/gif',
+            'image/x-icon',
+            'image/jpeg',
+            'image/png',
+            'image/svg+xml',
+            'image/tiff',
+            'image/webp',
+            'application/pdf',
+        ],
+    ],
+
 ];

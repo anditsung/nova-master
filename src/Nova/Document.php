@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -50,7 +51,9 @@ class Document extends Resource
 
     public function fieldsForCreate(Request $request)
     {
-        $model = $request->findParentModel();
+        //$model = $request->findParentModel();
+
+        $model = "";
 
         return [
 
@@ -103,19 +106,9 @@ class Document extends Resource
                 ->preview( function ($value) {
 
                     // jika file mime tidak termasuk yang dibawah maka tampilkan gambar no image
-                    $acceptedType = [
-                        'image/apng',
-                        'image/bmp',
-                        'image/x-ms-bmp',
-                        'image/gif',
-                        'image/x-icon',
-                        'image/jpeg',
-                        'image/png',
-                        'image/svg+xml',
-                        'image/tiff',
-                        'image/webp',
-                        'application/pdf',
-                    ];
+                    // pada firefox dan chrome tidak bisa menampikan file pdf
+                    // pada safari tidak ada masalah seperti ini.. mungkin safari ada extension khusus!
+                    $acceptedType = config('novamaster.document.accepted_type');
 
                     $fileMimeType = mime_content_type(storage_path("app/public/") . $value);
 
