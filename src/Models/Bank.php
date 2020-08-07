@@ -18,4 +18,9 @@ class Bank extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function banks()
+    {
+        return $this->morphTo('bank');
+    }
 }

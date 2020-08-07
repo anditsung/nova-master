@@ -6,12 +6,13 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Phone extends Model
+class Document extends Model
 {
     protected $fillable = [
         'name',
-        'number',
-        'user_id',
+        'file',
+        'original_name',
+        'original_size',
     ];
 
     public function user() : BelongsTo
@@ -19,8 +20,8 @@ class Phone extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function phones()
+    public function documents()
     {
-        return $this->morphTo('phone');
+        return $this->morphTo('document');
     }
 }

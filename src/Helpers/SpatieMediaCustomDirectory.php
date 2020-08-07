@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helpers;
+namespace Tsung\NovaMaster\Helpers;
 
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

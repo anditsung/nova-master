@@ -11,6 +11,7 @@ return [
         \Tsung\NovaMaster\Nova\Note::class,
         \Tsung\NovaMaster\Nova\Phone::class,
         \Tsung\NovaMaster\Nova\Unit::class,
+        \Tsung\NovaMaster\Nova\Document::class,
 
     ],
 

@@ -6,24 +6,25 @@ use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
-use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
-class Note extends Resource
+class Document extends Resource
 {
-    use ResourceAuthorization;
-    use ResourceRedirectIndex;
+    use ResourceRedirectIndex,
+        ResourceAuthorization;
 
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \Tsung\NovaMaster\Models\Note::class;
+    public static $model = \Tsung\NovaMaster\Models\Document::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -41,11 +42,40 @@ class Note extends Resource
 
     ];
 
-    public static $group = 'Master';
+    public static $group = "Master";
+
+    public static $globallySearchable = false;
 
     public static $displayInNavigation = false;
 
-    public static $globallySearchable = false;
+    public function fieldsForCreate(Request $request)
+    {
+        $model = $request->findParentModel();
+
+        return [
+
+            Text::make('Name')
+                ->rules('required'),
+
+            /**
+             * jika path menggunakan identity akan bermaslaah dengan identity warga negara asing karena ada karakter /
+             */
+            Image::make('File')
+                ->acceptedTypes('image/*,application/pdf,application/zip')
+                ->rules('required')
+                ->hideFromIndex()
+                ->prunable()
+                ->storeOriginalName('original_name')
+                ->storeSize('original_size')
+                ->path(class_basename($model) . '/' . $model->identity),
+
+            Hidden::make('user_id')
+                ->default($request->user()->id),
+
+            BelongsTo::make("Created By", 'user', User::class)
+                ->onlyOnDetail(),
+        ];
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -56,22 +86,15 @@ class Note extends Resource
     public function fields(Request $request)
     {
         return [
-            //ID::make(__('ID'), 'id')->sortable(),\
+            Text::make('Name')
+                ->rules('required'),
 
-            Textarea::make('Note')
-                ->rules('required')
-                ->showOnIndex()
-                ->alwaysShow(),
+            Image::make('File')
+                ->hideFromIndex()
+                ->prunable(),
 
-            Date::make('Created At')
-                ->exceptOnForms(),
-
-            Hidden::make('user_id')
-                ->default($request->user()->id),
-
-            BelongsTo::make('Created By', 'user', User::class)
-                ->exceptOnForms(),
-
+            BelongsTo::make("Created By", 'user', User::class)
+                ->onlyOnDetail(),
         ];
     }
 
@@ -118,5 +141,5 @@ class Note extends Resource
     {
         return [];
     }
-}
 
+}
