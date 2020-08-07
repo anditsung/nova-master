@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/endpoint', function (Request $request) {
 //     //
 // });
+
+Route::get('/no-image', function() {
+    return response()->file(__DIR__ . '/../image/no-image.png');
+});

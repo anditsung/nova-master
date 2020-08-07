@@ -6,6 +6,7 @@ use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -54,20 +55,24 @@ class Document extends Resource
 
         return [
 
-            Text::make('Name')
-                ->rules('required'),
-
             /**
              * jika path menggunakan identity akan bermaslaah dengan identity warga negara asing karena ada karakter /
              */
-            Image::make('File')
-                ->acceptedTypes('image/*,application/pdf,application/zip')
-                ->rules('required')
+//            Image::make('File')
+//                ->acceptedTypes('image/*,application/pdf,application/zip')
+//                ->rules('required')
+//                ->hideFromIndex()
+//                ->prunable()
+//                ->storeOriginalName('original_name')
+//                ->storeSize('original_size')
+//                ->path(class_basename($model) . '/' . $model->identity),
+            File::make('File')
                 ->hideFromIndex()
                 ->prunable()
                 ->storeOriginalName('original_name')
                 ->storeSize('original_size')
-                ->path(class_basename($model) . '/' . $model->identity),
+                ->rules('required')
+                ->path(class_basename($model) . '/' . $model->id),
 
             Hidden::make('user_id')
                 ->default($request->user()->id),
@@ -89,9 +94,43 @@ class Document extends Resource
             Text::make('Name')
                 ->rules('required'),
 
+            Text::make('Filename')
+                ->displayUsing(function() {
+                    return $this->original_name;
+                }),
+
             Image::make('File')
                 ->hideFromIndex()
-                ->prunable(),
+                ->prunable()
+                ->storeOriginalName('original_name')
+                ->storeSize('original_size')
+                ->preview( function ($value) {
+
+                    // jika file mime tidak termasuk yang dibawah maka tampilkan gambar no image
+                    $acceptedType = [
+                        'image/apng',
+                        'image/bmp',
+                        'image/gif',
+                        'image/x-icon',
+                        'image/jpeg',
+                        'image/png',
+                        'image/svg+xml',
+                        'image/tiff',
+                        'image/webp',
+                        'application/pdf',
+                    ];
+
+                    $fileMimeType = mime_content_type(storage_path("app/public/") . $value);
+
+                    if( in_array($fileMimeType, $acceptedType) ) {
+
+                        return $this->value;
+
+                    }
+
+                    return "/nova-vendor/nova-master/no-image";
+
+                }),
 
             BelongsTo::make("Created By", 'user', User::class)
                 ->onlyOnDetail(),

@@ -15,7 +15,6 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->text('file');
             $table->unsignedBigInteger('user_id');
             $table->morphs('document');
