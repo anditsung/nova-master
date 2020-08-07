@@ -1,4 +1,4 @@
-
+@canany(collect(config('novamaster.resources'))->map(function ($resource) { return 'viewAny ' . $resource::uriKey();}))
 <nova-sidebar>
     <template>
         <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,3 +30,4 @@
     </template>
 
 </nova-sidebar>
+@endcanany
