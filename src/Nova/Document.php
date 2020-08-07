@@ -120,8 +120,6 @@ class Document extends Resource
 
                     $fileMimeType = mime_content_type(storage_path("app/public/") . $value);
 
-                    return $fileMimeType;
-
                     if( in_array($fileMimeType, $acceptedType) ) {
 
                         return $this->value;
