@@ -51,9 +51,7 @@ class Document extends Resource
 
     public function fieldsForCreate(Request $request)
     {
-        //$model = $request->findParentModel();
-
-        $model = "";
+        $model = $request->findParentModel();
 
         return [
 
