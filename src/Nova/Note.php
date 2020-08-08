@@ -7,6 +7,7 @@ use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -63,8 +64,13 @@ class Note extends Resource
                 ->showOnIndex()
                 ->alwaysShow(),
 
-            Date::make('Created At')
-                ->exceptOnForms(),
+            DateTime::make('Created At')
+                ->format('DD MMMM Y, hh:mm:ss A')
+                ->onlyOnDetail(),
+
+            DateTime::make('Updated At')
+                ->format('DD MMMM Y, hh:mm:ss A')
+                ->onlyOnDetail(),
 
             Hidden::make('user_id')
                 ->default($request->user()->id),

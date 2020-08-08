@@ -6,6 +6,7 @@ use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Image;
@@ -119,6 +120,14 @@ class Document extends Resource
                     return "/nova-vendor/nova-master/no-image";
 
                 }),
+
+            DateTime::make('Created At')
+                ->format('DD MMMM Y, hh:mm:ss A')
+                ->onlyOnDetail(),
+
+            DateTime::make('Updated At')
+                ->format('DD MMMM Y, hh:mm:ss A')
+                ->onlyOnDetail(),
 
             BelongsTo::make("Created By", 'user', User::class)
                 ->onlyOnDetail(),

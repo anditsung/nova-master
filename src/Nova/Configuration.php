@@ -69,9 +69,11 @@ class Configuration extends Resource
                 ->default($request->user()->id),
 
             DateTime::make('Created At')
+                ->format('DD MMMM Y, hh:mm:ss A')
                 ->onlyOnDetail(),
 
             DateTime::make('Updated At')
+                ->format('DD MMMM Y, hh:mm:ss A')
                 ->onlyOnDetail(),
 
             BelongsTo::make('Created By', 'user', User::class)
