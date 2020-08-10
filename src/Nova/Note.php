@@ -6,11 +6,14 @@ use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Laravel\Nova\Nova;
+use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -58,6 +61,17 @@ class Note extends Resource
     {
         return [
             //ID::make(__('ID'), 'id')->sortable(),\
+            $this->when($request instanceof ResourceDetailRequest, function() {
+                return new Panel(
+                    class_basename($this->notes), [
+                        Text::make('Name', function() {
+                            $resource = Nova::resourceForModel($this->resource->notes);
+                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->notes->id}";
+                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->notes->name}</a>";
+                        })->asHtml(),
+                    ]
+                );
+            }),
 
             Textarea::make('Note')
                 ->rules('required')

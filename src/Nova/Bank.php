@@ -11,6 +11,9 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Laravel\Nova\Nova;
+use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -55,7 +58,19 @@ class Bank extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+//            ID::make(__('ID'), 'id')->sortable(),
+
+            $this->when($request instanceof ResourceDetailRequest, function() {
+                return new Panel(
+                    class_basename($this->banks), [
+                        Text::make('Name', function() {
+                            $resource = Nova::resourceForModel($this->resource->banks);
+                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->banks->id}";
+                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->banks->name}</a>";
+                        })->asHtml(),
+                    ]
+                );
+            }),
 
             Text::make('Name')
                 ->rules('required'),

@@ -23,4 +23,15 @@ class Document extends Model
     {
         return $this->morphTo('document');
     }
+
+    public function getMimeTypeAttribute()
+    {
+        return mime_content_type(storage_path("app/public/") . $this->file);
+    }
+
+    public function getNoImageAttribute()
+    {
+        return "/nova-vendor/nova-master/no-image";
+    }
+
 }

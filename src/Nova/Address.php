@@ -11,6 +11,9 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Laravel\Nova\Nova;
+use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -56,6 +59,18 @@ class Address extends Resource
     {
         return [
             //ID::make(__('ID'), 'id')->sortable(),
+
+            $this->when($request instanceof ResourceDetailRequest, function() {
+                return new Panel(
+                    class_basename($this->addresses), [
+                        Text::make('Name', function() {
+                            $resource = Nova::resourceForModel($this->resource->addresses);
+                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->addresses->id}";
+                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->addresses->name}</a>";
+                        })->asHtml(),
+                    ]
+                );
+            }),
 
             Text::make('Name')
                 ->rules('required'),

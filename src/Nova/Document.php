@@ -2,6 +2,7 @@
 
 namespace Tsung\NovaMaster\Nova;
 
+
 use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Laravel\Nova\Nova;
+use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -92,32 +95,49 @@ class Document extends Resource
     public function fields(Request $request)
     {
         return [
+            $this->when($request instanceof ResourceDetailRequest, function() {
+                return new Panel(
+                    class_basename($this->documents), [
+                        Text::make("Name", function() {
+                            // check function ada atau tidak jika tidak ada baru panggil variable
+                            $resource = Nova::resourceForModel($this->resource->documents);
+                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->documents->id}";
+                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->documents->name}</a>";
+                        })->asHtml(),
+                    ]
+                );
+            }),
+
             Text::make('Filename')
                 ->displayUsing(function() {
                     return $this->original_name;
                 }),
+
+            Text::make('Mime Type', function() {
+                return $this->mimeType;
+            })->onlyOnDetail()->canSee(function() use ($request) {
+                return $request->user()->administrator();
+            }),
 
             Image::make('File')
                 ->hideFromIndex()
                 ->prunable()
                 ->storeOriginalName('original_name')
                 ->storeSize('original_size')
-                ->preview( function ($value) {
+                ->preview( function () {
 
                     // jika file mime tidak termasuk yang dibawah maka tampilkan gambar no image
                     // pada firefox dan chrome tidak bisa menampikan file pdf
                     // pada safari tidak ada masalah seperti ini.. mungkin safari ada extension khusus!
                     $acceptedType = config('novamaster.document.accepted_type');
 
-                    $fileMimeType = mime_content_type(storage_path("app/public/") . $value);
-
-                    if( in_array($fileMimeType, $acceptedType) ) {
+                    if( in_array($this->mimeType, $acceptedType) ) {
 
                         return $this->value;
 
                     }
 
-                    return "/nova-vendor/nova-master/no-image";
+                    return $this->noImage;
 
                 }),
 
