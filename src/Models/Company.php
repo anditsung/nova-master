@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Tsung\NovaUserManagement\Traits\SaveToUpper;
 
 class Company extends Model
 {
+    use SaveToUpper;
+
+    protected $no_upper = [
+    ];
+
     protected $fillable = [
         'name',
         'abbr',
