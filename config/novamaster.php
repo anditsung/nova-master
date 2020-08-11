@@ -16,6 +16,12 @@ return [
     ],
 
     "document" => [
+
+        "morph" => [
+            \App\Nova\HumanResource\Person::class,
+            \App\Nova\HumanResource\Employee::class,
+        ],
+
         'accepted_type' => [
             'image/apng',
             'image/bmp',
@@ -27,7 +33,23 @@ return [
             'image/svg+xml',
             'image/tiff',
             'image/webp',
-            'application/pdf',
+            //'application/pdf',
+        ],
+    ],
+
+    'note' => [
+
+        'morph' => [
+            \App\Nova\HumanResource\Person::class,
+            \App\Nova\HumanResource\Employee::class,
+        ],
+    ],
+
+    'phone' => [
+
+        'morph' => [
+            \App\Nova\HumanResource\Person::class,
+            \Tsung\NovaMaster\Nova\Company::class,
         ],
     ],
 

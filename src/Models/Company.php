@@ -30,11 +30,11 @@ class Company extends Model
 
     public function address() : MorphOne
     {
-        return $this->morphOne(Address::class, 'address');
+        return $this->morphOne(Address::class, 'address', 'address_type', 'address_id');
     }
 
-    public function phone() : MorphMany
+    public function phones() : MorphMany
     {
-        return $this->morphMany(Phone::class, 'phone');
+        return $this->morphMany(Phone::class, 'phones', 'phone_type', 'phone_id');
     }
 }

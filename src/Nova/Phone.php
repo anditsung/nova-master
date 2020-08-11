@@ -9,12 +9,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
-use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Http\Requests\ResourceDetailRequest;
-use Laravel\Nova\Nova;
-use Laravel\Nova\Panel;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -62,16 +58,22 @@ class Phone extends Resource
     public function fields(Request $request)
     {
         return [
-            $this->when($request instanceof ResourceDetailRequest, function() {
-                return new Panel(
-                    class_basename($this->phones), [
-                        Text::make('Name', function() {
-                            $resource = Nova::resourceForModel($this->resource->phones);
-                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->phones->id}";
-                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->phones->name}</a>";
-                        })->asHtml(),
-                    ]
-                );
+//            $this->when($request instanceof ResourceDetailRequest, function() {
+//                return new Panel(
+//                    class_basename($this->phones), [
+//                        Text::make('Name', function() {
+//                            $resource = Nova::resourceForModel($this->resource->phones);
+//                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->phones->id}";
+//                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->phones->name}</a>";
+//                        })->asHtml(),
+//                    ]
+//                );
+//            }),
+
+            $this->when( !$request->viaResource, function() {
+                return MorphTo::make('Phones')
+                    ->searchable()
+                    ->types(config('novamaster.phone.morph'));
             }),
 
             Text::make('Name')

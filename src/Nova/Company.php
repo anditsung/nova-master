@@ -86,7 +86,7 @@ class Company extends Resource
 
             MorphOne::make('Address', 'address', Address::class),
 
-            MorphMany::make('Phone', 'phone', Phone::class),
+            MorphMany::make('Phone', 'phones', Phone::class),
         ];
     }
 

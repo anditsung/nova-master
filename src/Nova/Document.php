@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
@@ -55,10 +56,10 @@ class Document extends Resource
 
     public function fieldsForCreate(Request $request)
     {
+        // disini memerlukan model karena mau simpan data berdasarkan id model tersebut
         $model = $request->findParentModel();
 
         return [
-
             /**
              * jika path menggunakan identity akan bermaslaah dengan identity warga negara asing karena ada karakter /
              */
@@ -95,17 +96,23 @@ class Document extends Resource
     public function fields(Request $request)
     {
         return [
-            $this->when($request instanceof ResourceDetailRequest, function() {
-                return new Panel(
-                    class_basename($this->documents), [
-                        Text::make("Name", function() {
-                            // check function ada atau tidak jika tidak ada baru panggil variable
-                            $resource = Nova::resourceForModel($this->resource->documents);
-                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->documents->id}";
-                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->documents->name}</a>";
-                        })->asHtml(),
-                    ]
-                );
+//            $this->when($request instanceof ResourceDetailRequest, function() {
+//                return new Panel(
+//                    class_basename($this->documents), [
+//                        Text::make("Name", function() {
+//                            // check function ada atau tidak jika tidak ada baru panggil variable
+//                            $resource = Nova::resourceForModel($this->resource->documents);
+//                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->documents->id}";
+//                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->documents->name}</a>";
+//                        })->asHtml(),
+//                    ]
+//                );
+//            }),
+
+            $this->when( !$request->viaResource, function() {
+                return MorphTo::make('Documents')
+                    ->searchable()
+                    ->types(config('novamaster.document.morph'));
             }),
 
             Text::make('Filename')

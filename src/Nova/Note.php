@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -61,16 +63,22 @@ class Note extends Resource
     {
         return [
             //ID::make(__('ID'), 'id')->sortable(),\
-            $this->when($request instanceof ResourceDetailRequest, function() {
-                return new Panel(
-                    class_basename($this->notes), [
-                        Text::make('Name', function() {
-                            $resource = Nova::resourceForModel($this->resource->notes);
-                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->notes->id}";
-                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->notes->name}</a>";
-                        })->asHtml(),
-                    ]
-                );
+//            $this->when($request instanceof ResourceDetailRequest, function() {
+//                return new Panel(
+//                    class_basename($this->notes), [
+//                        Text::make('Name', function() {
+//                            $resource = Nova::resourceForModel($this->resource->notes);
+//                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->notes->id}";
+//                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->notes->name}</a>";
+//                        })->asHtml(),
+//                    ]
+//                );
+//            }),
+
+            $this->when( !$request->viaResource, function() {
+                return MorphTo::make('Notes')
+                    ->searchable()
+                    ->types(config('novamaster.note.morph'));
             }),
 
             Textarea::make('Note')
