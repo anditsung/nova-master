@@ -12,6 +12,7 @@ class Address extends Model
     use SaveToUpper;
 
     protected $no_upper = [
+        'address_type'
     ];
 
     protected $fillable = [

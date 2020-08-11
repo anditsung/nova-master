@@ -12,6 +12,7 @@ class Note extends Model
     use SaveToUpper;
 
     protected $no_upper = [
+        'note_type'
     ];
 
     protected $fillable = [

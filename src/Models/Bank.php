@@ -13,6 +13,7 @@ class Bank extends Model
     use SaveToUpper;
 
     protected $no_upper = [
+        'bank_type'
     ];
 
     protected $fillable = [

@@ -12,6 +12,7 @@ class Phone extends Model
     use SaveToUpper;
 
     protected $no_upper = [
+        'phone_type'
     ];
 
     protected $fillable = [

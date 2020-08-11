@@ -42,7 +42,7 @@ class Note extends Resource
      * @var array
      */
     public static $search = [
-
+        'note'
     ];
 
     public static $group = 'Master';
@@ -90,7 +90,7 @@ class Note extends Resource
                 ->default($request->user()->id),
 
             BelongsTo::make('Created By', 'user', User::class)
-                ->exceptOnForms(),
+                ->onlyOnDetail(),
 
         ];
     }

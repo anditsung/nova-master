@@ -44,7 +44,7 @@ class Document extends Resource
      * @var array
      */
     public static $search = [
-
+        'original_name'
     ];
 
     public static $group = "Master";

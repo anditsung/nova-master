@@ -44,6 +44,7 @@ class Phone extends Resource
      */
     public static $search = [
         'name',
+        'number',
     ];
 
     public static $globallySearchable = false;

@@ -43,11 +43,14 @@ class Bank extends Resource
      */
     public static $search = [
         'name',
+        'account',
     ];
 
     public static $group = 'Master';
 
     public static $displayInNavigation = false;
+
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.

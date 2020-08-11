@@ -42,12 +42,15 @@ class Address extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
+        'address',
     ];
 
     public static $group = "Master";
 
     public static $displayInNavigation = false;
+
+    public static $globallySearchable = false;
 
     /**
      * Get the fields displayed by the resource.
