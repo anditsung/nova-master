@@ -54,39 +54,6 @@ class Document extends Resource
 
     public static $displayInNavigation = false;
 
-    public function fieldsForCreate(Request $request)
-    {
-        // disini memerlukan model karena mau simpan data berdasarkan id model tersebut
-        $model = $request->findParentModel();
-
-        return [
-            /**
-             * jika path menggunakan identity akan bermaslaah dengan identity warga negara asing karena ada karakter /
-             */
-//            Image::make('File')
-//                ->acceptedTypes('image/*,application/pdf,application/zip')
-//                ->rules('required')
-//                ->hideFromIndex()
-//                ->prunable()
-//                ->storeOriginalName('original_name')
-//                ->storeSize('original_size')
-//                ->path(class_basename($model) . '/' . $model->identity),
-            File::make('File')
-                ->hideFromIndex()
-                ->prunable()
-                ->storeOriginalName('original_name')
-                ->storeSize('original_size')
-                ->rules('required')
-                ->path(class_basename($model) . '/' . $model->id),
-
-            Hidden::make('user_id')
-                ->default($request->user()->id),
-
-            BelongsTo::make("Created By", 'user', User::class)
-                ->onlyOnDetail(),
-        ];
-    }
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -118,13 +85,32 @@ class Document extends Resource
             Text::make('Filename')
                 ->displayUsing(function() {
                     return $this->original_name;
-                }),
+                })->exceptOnForms(),
 
             Text::make('Mime Type', function() {
                 return $this->mimeType;
             })->onlyOnDetail()->canSee(function() use ($request) {
                 return $request->user()->administrator();
             }),
+
+            File::make('File')
+                ->prunable()
+                ->store( function ( Request $request, $model ) {
+
+                    $savePath = "";
+
+                    if($request->viaResource) {
+                        $savePath = class_basename($request->viaResource()) . '/' . $request->viaResourceId;
+                    } else {
+                        $savePath = class_basename($this->documents) . '/' . $this->documents->id;
+                    }
+
+                    return [
+                        'file' => $request->file->store($savePath, 'public'),
+                        'original_name' => $request->file->getClientOriginalName(),
+                        'original_size' => $request->file->getSize(),
+                    ];
+                })->onlyOnForms(),
 
             Image::make('File')
                 ->hideFromIndex()
@@ -146,7 +132,10 @@ class Document extends Resource
 
                     return $this->noImage;
 
-                }),
+                })->onlyOnDetail(),
+
+            Hidden::make('user_id')
+                ->default($request->user()->id),
 
             DateTime::make('Created At')
                 ->format('DD MMMM Y, hh:mm:ss A')
