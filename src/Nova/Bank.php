@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
@@ -63,16 +64,22 @@ class Bank extends Resource
         return [
 //            ID::make(__('ID'), 'id')->sortable(),
 
-            $this->when($request instanceof ResourceDetailRequest, function() {
-                return new Panel(
-                    class_basename($this->banks), [
-                        Text::make('Name', function() {
-                            $resource = Nova::resourceForModel($this->resource->banks);
-                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->banks->id}";
-                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->banks->name}</a>";
-                        })->asHtml(),
-                    ]
-                );
+//            $this->when($request instanceof ResourceDetailRequest, function() {
+//                return new Panel(
+//                    class_basename($this->banks), [
+//                        Text::make('Name', function() {
+//                            $resource = Nova::resourceForModel($this->resource->banks);
+//                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->banks->id}";
+//                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->banks->name}</a>";
+//                        })->asHtml(),
+//                    ]
+//                );
+//            }),
+
+            $this->when( !$request->viaResource, function() {
+                return MorphTo::make('Banks')
+                    ->searchable()
+                    ->types(config('novamaster.bank.morph'));
             }),
 
             Text::make('Name')

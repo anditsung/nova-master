@@ -53,4 +53,18 @@ return [
         ],
     ],
 
+    'bank' => [
+
+        'morph' => [
+            \App\Nova\HumanResource\Person::class,
+        ],
+    ],
+
+    'address' => [
+
+        'morph' => [
+            \App\Nova\HumanResource\Person::class,
+        ],
+    ],
+
 ];

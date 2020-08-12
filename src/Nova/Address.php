@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -63,16 +64,22 @@ class Address extends Resource
         return [
             //ID::make(__('ID'), 'id')->sortable(),
 
-            $this->when($request instanceof ResourceDetailRequest, function() {
-                return new Panel(
-                    class_basename($this->addresses), [
-                        Text::make('Name', function() {
-                            $resource = Nova::resourceForModel($this->resource->addresses);
-                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->addresses->id}";
-                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->addresses->name}</a>";
-                        })->asHtml(),
-                    ]
-                );
+//            $this->when($request instanceof ResourceDetailRequest, function() {
+//                return new Panel(
+//                    class_basename($this->addresses), [
+//                        Text::make('Name', function() {
+//                            $resource = Nova::resourceForModel($this->resource->addresses);
+//                            $url = config('nova.path') . "/resources/{$resource::uriKey()}/{$this->addresses->id}";
+//                            return "<a href='{$url}' class='no-underline font-bold dim text-primary'>{$this->addresses->name}</a>";
+//                        })->asHtml(),
+//                    ]
+//                );
+//            }),
+
+            $this->when( !$request->viaResource, function() {
+                return MorphTo::make('Addresses')
+                    ->searchable()
+                    ->types(config('novamaster.address.morph'));
             }),
 
             Text::make('Name')
