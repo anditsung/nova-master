@@ -56,7 +56,7 @@ class ToolServiceProvider extends ServiceProvider
     protected function registerTools()
     {
         return [
-            new NovaMaster()
+            new NovaMaster(),
         ];
     }
 
