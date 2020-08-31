@@ -8,10 +8,11 @@ return [
         \Tsung\NovaMaster\Nova\Bank::class,
         \Tsung\NovaMaster\Nova\Company::class,
         \Tsung\NovaMaster\Nova\Configuration::class,
+        \Tsung\NovaMaster\Nova\Document::class,
+        \Tsung\NovaMaster\Nova\Holiday::class,
         \Tsung\NovaMaster\Nova\Note::class,
         \Tsung\NovaMaster\Nova\Phone::class,
         \Tsung\NovaMaster\Nova\Unit::class,
-        \Tsung\NovaMaster\Nova\Document::class,
 
     ],
 
