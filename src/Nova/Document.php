@@ -94,6 +94,7 @@ class Document extends Resource
             }),
 
             File::make('File')
+                ->rules('required')
                 ->prunable()
                 ->store( function ( Request $request, $model ) {
 
