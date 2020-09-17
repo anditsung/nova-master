@@ -5,6 +5,7 @@ namespace Tsung\NovaMaster\Commands;
 
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class Install extends Command
 {
@@ -40,7 +41,7 @@ class Install extends Command
         $guard = config('nova.guard') ?: config('auth.defaults.guard');
 
         $userModel = config('auth.providers.users.model');
-        $permissionModel = config('novauser.gates.permission.model');
+        $permissionModel = config('novauser.models.permission');
 
         $user = $userModel::first();
         $userRole = $user->roles->first();
@@ -78,16 +79,16 @@ class Install extends Command
         ];
 
         $permissions = [
-            'viewAny ' . strtolower($model) => $model,
-            'view ' . strtolower($model) => $model,
-            'create ' . strtolower($model) => $model,
-            'update ' . strtolower($model) => $model,
-            'delete ' . strtolower($model) => $model,
-            'restore ' . strtolower($model) => $model,
-            'forceDelete ' . strtolower($model) => $model,
+            'viewAny ' . Str::slug($model) => $model,
+            'view ' . Str::slug($model) => $model,
+            'create ' . Str::slug($model) => $model,
+            'update ' . Str::slug($model) => $model,
+            'delete ' . Str::slug($model) => $model,
+            'restore ' . Str::slug($model) => $model,
+            'forceDelete ' . Str::slug($model) => $model,
         ];
 
-        $permissions = array_merge($permissions, isset($additional[strtolower($model)]) ? $additional[strtolower($model)] : []);
+        $permissions = array_merge($permissions, isset($additional[Str::slug($model)]) ? $additional[Str::slug($model)] : []);
         return $permissions;
     }
 
