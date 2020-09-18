@@ -48,6 +48,13 @@ class Company extends Resource
 
     public static $displayInNavigation = false;
 
+    public function fieldsForIndex(Request $request)
+    {
+        return [
+            Text::make('Name'),
+        ];
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
