@@ -2,6 +2,8 @@
 
 namespace Tsung\NovaMaster\Nova;
 
+use Laravel\Nova\Fields\HasMany;
+use Tsung\NovaHumanResource\Nova\Employee;
 use Tsung\NovaUserManagement\Nova\Filters\Active as ActiveFilter;
 use App\Nova\Resource;
 use App\Nova\User;
@@ -93,6 +95,8 @@ class Company extends Resource
             MorphOne::make('Address', 'address', Address::class),
 
             MorphMany::make('Phone', 'phones', Phone::class),
+
+            HasMany::make('Employees', 'employees', Employee::class),
         ];
     }
 

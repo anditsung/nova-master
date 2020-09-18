@@ -148,4 +148,31 @@ class Address extends Resource
     {
         return [];
     }
+
+    public function authorizedToView(Request $request)
+    {
+        if ($request->viaResource) {
+            return false;
+        }
+
+        return parent::authorizedToView($request);
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        if ($request->viaResource) {
+            return false;
+        }
+
+        return parent::authorizedToUpdate($request);
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        if ($request->viaResource) {
+            return false;
+        }
+
+        return parent::authorizedToDelete($request);
+    }
 }

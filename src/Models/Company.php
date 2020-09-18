@@ -5,8 +5,10 @@ namespace Tsung\NovaMaster\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Tsung\NovaHumanResource\Models\Employee;
 use Tsung\NovaUserManagement\Traits\SaveToUpper;
 
 class Company extends Model
@@ -36,5 +38,10 @@ class Company extends Model
     public function phones() : MorphMany
     {
         return $this->morphMany(Phone::class, 'phones', 'phone_type', 'phone_id');
+    }
+
+    public function employees() : HasMany
+    {
+        return $this->hasMany(Employee::class);
     }
 }
