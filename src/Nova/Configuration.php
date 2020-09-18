@@ -11,12 +11,13 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
+use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
 class Configuration extends Resource
 {
-    use ResourceAuthorization;
+    use ResourceAuthorization,
+        ResourceRedirectIndex;
     /**
      * The model the resource corresponds to.
      *

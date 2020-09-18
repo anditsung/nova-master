@@ -19,8 +19,8 @@ return [
     "document" => [
 
         "morph" => [
-            \App\Nova\HumanResource\Person::class,
-            \App\Nova\HumanResource\Employee::class,
+            \Tsung\NovaHumanResource\Nova\Person::class,
+            \Tsung\NovaHumanResource\Nova\Employee::class,
         ],
 
         'accepted_type' => [
@@ -41,30 +41,30 @@ return [
     'note' => [
 
         'morph' => [
-            \App\Nova\HumanResource\Person::class,
-            \App\Nova\HumanResource\Employee::class,
+            \Tsung\NovaHumanResource\Nova\Person::class,
+            \Tsung\NovaHumanResource\Nova\Employee::class,
         ],
     ],
 
     'phone' => [
 
         'morph' => [
-            \App\Nova\HumanResource\Person::class,
-            \Tsung\NovaMaster\Nova\Company::class,
+            \Tsung\NovaHumanResource\Nova\Person::class,
+            \Tsung\NovaHumanResource\Nova\Employee::class,
         ],
     ],
 
     'bank' => [
 
         'morph' => [
-            \App\Nova\HumanResource\Person::class,
+            \Tsung\NovaHumanResource\Nova\Person::class,
         ],
     ],
 
     'address' => [
 
         'morph' => [
-            \App\Nova\HumanResource\Person::class,
+            \Tsung\NovaHumanResource\Nova\Person::class,
         ],
     ],
 

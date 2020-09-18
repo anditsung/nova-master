@@ -11,10 +11,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Http\Requests\ResourceDetailRequest;
-use Laravel\Nova\Nova;
-use Laravel\Nova\Panel;
+use Illuminate\Support\Str;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -87,10 +84,7 @@ class Address extends Resource
 
             Textarea::make('Address')
                 ->displayUsing( function($address) {
-                    if(strlen($address) >= 70) {
-                        $address = substr($address, 0, 70) . "...";
-                    }
-                    return $address;
+                    return Str::limit($address, 50);
                 })
                 ->showOnIndex()
                 ->alwaysShow(),
