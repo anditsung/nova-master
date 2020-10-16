@@ -19,6 +19,8 @@ class CreateNotesTable extends Migration
             $table->morphs('note');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
