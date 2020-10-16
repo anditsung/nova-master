@@ -20,6 +20,8 @@ class CreatePhonesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->morphs('phone');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

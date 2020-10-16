@@ -18,7 +18,10 @@ class CreateAddressesTable extends Migration
             $table->string('name');
             $table->text('address');
             $table->morphs('address');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

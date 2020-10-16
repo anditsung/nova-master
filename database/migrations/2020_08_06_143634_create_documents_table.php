@@ -21,6 +21,8 @@ class CreateDocumentsTable extends Migration
             $table->text('original_name');
             $table->float('original_size');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
