@@ -15,8 +15,8 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('abbr');
+            $table->string('name')->index();
+            $table->string('abbr')->index();
             $table->boolean('is_active');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
