@@ -15,8 +15,8 @@ class CreateHolidaysTable extends Migration
     {
         Schema::create('holidays', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('date');
+            $table->string('name')->index();
+            $table->date('date')->index();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
