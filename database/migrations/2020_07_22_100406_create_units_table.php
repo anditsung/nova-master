@@ -13,7 +13,7 @@ class CreateUnitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('master_units', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->string('abbr')->index();
@@ -32,6 +32,6 @@ class CreateUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('master_units');
     }
 }

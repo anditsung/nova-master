@@ -11,6 +11,8 @@ class Note extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_notes';
+
     protected $no_upper = [
         'note_type'
     ];

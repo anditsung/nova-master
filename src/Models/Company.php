@@ -15,6 +15,8 @@ class Company extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_companies';
+
     protected $no_upper = [
     ];
 

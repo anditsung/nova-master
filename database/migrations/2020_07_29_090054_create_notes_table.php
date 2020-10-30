@@ -13,7 +13,7 @@ class CreateNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('master_notes', function (Blueprint $table) {
             $table->id();
             $table->text('note');
             $table->morphs('note');
@@ -31,6 +31,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('master_notes');
     }
 }

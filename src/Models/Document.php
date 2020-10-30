@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Document extends Model
 {
+    protected $table = 'master_documents';
+
     protected $fillable = [
         'file',
         'original_name',

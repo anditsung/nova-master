@@ -13,7 +13,7 @@ class CreateDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('master_documents', function (Blueprint $table) {
             $table->id();
             $table->text('file');
             $table->unsignedBigInteger('user_id');
@@ -33,6 +33,6 @@ class CreateDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('master_documents');
     }
 }

@@ -11,6 +11,8 @@ class Phone extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_phones';
+
     protected $no_upper = [
         'phone_type'
     ];

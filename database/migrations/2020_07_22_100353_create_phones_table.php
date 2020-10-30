@@ -13,7 +13,7 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('master_phones', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->string('number')->index();
@@ -32,6 +32,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('master_phones');
     }
 }

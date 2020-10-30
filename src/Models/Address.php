@@ -11,6 +11,8 @@ class Address extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_addresses';
+
     protected $no_upper = [
         'address_type'
     ];

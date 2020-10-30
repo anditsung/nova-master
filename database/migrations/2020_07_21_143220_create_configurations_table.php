@@ -13,7 +13,7 @@ class CreateConfigurationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('configurations', function (Blueprint $table) {
+        Schema::create('master_configurations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->text('config');
@@ -31,6 +31,6 @@ class CreateConfigurationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('configurations');
+        Schema::dropIfExists('master_configurations');
     }
 }

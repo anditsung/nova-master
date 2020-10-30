@@ -12,6 +12,8 @@ class Bank extends Model
 
     use SaveToUpper;
 
+    protected $table = 'master_banks';
+
     protected $no_upper = [
         'bank_type'
     ];

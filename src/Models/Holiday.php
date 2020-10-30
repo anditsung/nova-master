@@ -11,6 +11,8 @@ class Holiday extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_holidays';
+
     protected $no_upper = [
     ];
 

@@ -9,6 +9,8 @@ class Unit extends Model
 {
     use SaveToUpper;
 
+    protected $table = 'master_units';
+
     protected $no_upper = [
     ];
 }

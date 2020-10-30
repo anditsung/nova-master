@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Configuration extends Model
 {
+    protected $table = 'master_configurations';
+
     protected $fillable = [
         'name',
         'config',
