@@ -87,7 +87,8 @@ class Address extends Resource
                     return Str::limit($address, 50);
                 })
                 ->showOnIndex()
-                ->alwaysShow(),
+                ->alwaysShow()
+                ->rules('required'),
 
             Hidden::make('user_id')
                 ->default($request->user()->id),
