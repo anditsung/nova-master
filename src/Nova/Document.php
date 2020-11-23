@@ -6,6 +6,7 @@ namespace Tsung\NovaMaster\Nova;
 use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
@@ -13,6 +14,8 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Laravel\Nova\Http\Requests\ResourceIndexRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -107,7 +110,11 @@ class Document extends Resource
                         'original_name' => $request->file->getClientOriginalName(),
                         'original_size' => $request->file->getSize(),
                     ];
-                })->onlyOnForms(),
+                })
+                ->download(function () {
+                    return Storage::disk('public')->download($this->file, $this->original_name);
+                })
+                ->onlyOnForms(),
 
             Image::make('File')
                 ->hideFromIndex()
@@ -129,7 +136,8 @@ class Document extends Resource
 
                     return $this->noImage;
 
-                })->onlyOnDetail(),
+                })
+                ->onlyOnDetail(),
 
             Hidden::make('user_id')
                 ->default($request->user()->id),
@@ -189,6 +197,15 @@ class Document extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        if ($request instanceof ResourceDetailRequest) {
+            return false;
+        }
+
+        return $this->hasOwnPermission($request, 'delete ' . parent::uriKey());
     }
 
 }
