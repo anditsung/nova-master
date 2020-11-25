@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Illuminate\Support\Str;
@@ -40,7 +41,7 @@ class Address extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'type',
         'address',
     ];
 
@@ -79,8 +80,10 @@ class Address extends Resource
                     ->types(config('novamaster.address.morph'));
             }),
 
-            Text::make('Name')
-                ->rules('required'),
+            Select::make(__('Type'))
+                ->rules('required')
+                ->options(config('novamaster.address.types'))
+                ->displayUsingLabels(),
 
             Textarea::make('Address')
                 ->displayUsing( function($address) {

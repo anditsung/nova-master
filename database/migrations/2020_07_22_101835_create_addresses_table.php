@@ -15,7 +15,7 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('master_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index();
+            $table->integer('type');
             $table->text('address')->index();
             $table->morphs('address');
             $table->unsignedBigInteger('user_id');

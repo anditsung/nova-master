@@ -52,6 +52,12 @@ return [
             \Tsung\NovaHumanResource\Nova\Person::class,
             \Tsung\NovaHumanResource\Nova\Employee::class,
         ],
+
+        'types' => [
+            1 => 'HOME',
+            2 => 'OFFICE',
+            3 => 'MOBILE',
+        ],
     ],
 
     'bank' => [
@@ -66,6 +72,11 @@ return [
         'morph' => [
             \Tsung\NovaHumanResource\Nova\Person::class,
         ],
+
+        'types' => [
+            1 => 'HOME',
+            2 => 'OFFICE',
+        ]
     ],
 
 ];

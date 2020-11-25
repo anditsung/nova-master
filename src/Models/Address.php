@@ -18,7 +18,7 @@ class Address extends Model
     ];
 
     protected $fillable = [
-        'name',
+        'type',
         'address',
         'address_type',
         'address_id',

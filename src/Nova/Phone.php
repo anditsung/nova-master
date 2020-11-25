@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
@@ -39,7 +40,7 @@ class Phone extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'type',
         'number',
     ];
 
@@ -76,8 +77,12 @@ class Phone extends Resource
                     ->types(config('novamaster.phone.morph'));
             }),
 
-            Text::make('Name')
-                ->rules('required'),
+//            Text::make('Name')
+//                ->rules('required'),
+            Select::make(__('Type'))
+                ->rules('required')
+                ->options(config('novamaster.phone.types'))
+                ->displayUsingLabels(),
 
             Text::make('Number')
                 ->rules('required'),

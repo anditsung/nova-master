@@ -15,7 +15,7 @@ class CreatePhonesTable extends Migration
     {
         Schema::create('master_phones', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index();
+            $table->integer('type');
             $table->string('number')->index();
             $table->unsignedBigInteger('user_id');
             $table->morphs('phone');
