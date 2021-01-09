@@ -159,7 +159,7 @@ class Address extends Resource
             return false;
         }
 
-        return parent::authorizedToView($request);
+        return $this->hasOwnPermission($request, 'view ' . parent::uriKey());
     }
 
     public function authorizedToUpdate(Request $request)
@@ -168,7 +168,7 @@ class Address extends Resource
             return false;
         }
 
-        return parent::authorizedToUpdate($request);
+        return $this->hasOwnPermission($request, 'update ' . parent::uriKey());
     }
 
     public function authorizedToDelete(Request $request)
@@ -177,6 +177,6 @@ class Address extends Resource
             return false;
         }
 
-        return parent::authorizedToDelete($request);
+        return $this->hasOwnPermission($request, 'delete ' . parent::uriKey());
     }
 }
