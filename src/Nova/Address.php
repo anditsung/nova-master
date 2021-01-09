@@ -153,30 +153,30 @@ class Address extends Resource
         return [];
     }
 
-    public function authorizedToView(Request $request)
-    {
-        if ($request->viaResource) {
-            return false;
-        }
-
-        return $this->hasOwnPermission($request, 'view ' . parent::uriKey());
-    }
-
-    public function authorizedToUpdate(Request $request)
-    {
-        if ($request->viaResource) {
-            return false;
-        }
-
-        return $this->hasOwnPermission($request, 'update ' . parent::uriKey());
-    }
-
-    public function authorizedToDelete(Request $request)
-    {
-        if ($request->viaResource) {
-            return false;
-        }
-
-        return $this->hasOwnPermission($request, 'delete ' . parent::uriKey());
-    }
+//    public function authorizedToView(Request $request)
+//    {
+//        if ($request->viaResource) {
+//            return false;
+//        }
+//
+//        return $this->hasPermission($request, 'view ' . parent::uriKey());
+//    }
+//
+//    public function authorizedToUpdate(Request $request)
+//    {
+//        if ($request->viaResource) {
+//            return false;
+//        }
+//
+//        return $this->hasOwnPermission($request, 'update ' . parent::uriKey());
+//    }
+//
+//    public function authorizedToDelete(Request $request)
+//    {
+//        if ($request->viaResource) {
+//            return false;
+//        }
+//
+//        return $this->hasOwnPermission($request, 'delete ' . parent::uriKey());
+//    }
 }
