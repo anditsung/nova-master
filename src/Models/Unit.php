@@ -19,6 +19,7 @@ class Unit extends Model
     ];
 
     protected $no_upper = [
+        'abbr'
     ];
 
     public function user()
