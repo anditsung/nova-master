@@ -14,11 +14,13 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceQueries;
+use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
 class Unit extends Resource
 {
-    use ResourceAuthorization;
-    use ResourceQueries;
+    use ResourceAuthorization,
+        ResourceQueries,
+        ResourceRedirectIndex;
 
     /**
      * The model the resource corresponds to.
