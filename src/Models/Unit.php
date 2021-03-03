@@ -7,6 +7,8 @@ use Tsung\NovaUserManagement\Traits\SaveToUpper;
 
 class Unit extends Model
 {
+    // https://www.zoho.com/in/books/kb/gst/unit-code-list.html
+
     use SaveToUpper;
 
     protected $table = 'master_units';
@@ -19,7 +21,6 @@ class Unit extends Model
     ];
 
     protected $no_upper = [
-        'abbr'
     ];
 
     public function user()
