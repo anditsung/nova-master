@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceQueries;
 
@@ -46,6 +47,17 @@ class Unit extends Resource
 
     public static $displayInNavigation = false;
 
+    public function indexFields(NovaRequest $request)
+    {
+        return [
+            Text::make(__('Name')),
+
+            Text::make(__('ABBR')),
+
+            Boolean::make(__('Active'), 'is_active')
+        ];
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -55,13 +67,13 @@ class Unit extends Resource
     public function fields(Request $request)
     {
         return [
-            Boolean::make('Active', 'is_active')
+            Boolean::make(__('Active'), 'is_active')
                 ->default(true),
 
             Text::make(__('Name'))
                 ->rules('required'),
 
-            Text::make(__('Abbr'))
+            Text::make(__('ABBR'))
                 ->rules('required')
                 ->creationRules('unique:master_units,abbr')
                 ->updateRules('unique:master_units,abbr,{{resourceId}}'),
