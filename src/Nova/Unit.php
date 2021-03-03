@@ -6,6 +6,7 @@ use App\Nova\Resource;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
@@ -54,6 +55,9 @@ class Unit extends Resource
     public function fields(Request $request)
     {
         return [
+            Boolean::make('Active', 'is_active')
+                ->default(true),
+
             Text::make(__('Name'))
                 ->rules('required'),
 
