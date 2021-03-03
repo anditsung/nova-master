@@ -47,7 +47,7 @@ class Unit extends Resource
 
     public static $displayInNavigation = false;
 
-    public function indexFields(NovaRequest $request)
+    public function fieldsForIndex(NovaRequest $request)
     {
         return [
             Text::make(__('Name')),
