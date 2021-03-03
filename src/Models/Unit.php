@@ -8,6 +8,7 @@ use Tsung\NovaUserManagement\Traits\SaveToUpper;
 class Unit extends Model
 {
     // https://www.zoho.com/in/books/kb/gst/unit-code-list.html
+    // http://www.svtuition.org/2010/01/list-of-units-of-measurement-for.html
 
     use SaveToUpper;
 
