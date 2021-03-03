@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceQueries;
 
@@ -53,7 +54,13 @@ class Unit extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            Text::make(__('Name'))
+                ->rules('required'),
+
+            Text::make(__('Abbr'))
+                ->rules('required')
+                ->creationRules('unique:master_units,abbr')
+                ->updateRules('unique:master_units,abbr,{{resourceId}}'),
 
             Hidden::make('user_id')
                 ->default($request->user()->id),
