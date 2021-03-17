@@ -68,8 +68,8 @@ class Company extends Resource
         return [
             Text::make('Name')
                 ->rules('required')
-                ->creationRules('unique:companies,name')
-                ->updateRules('unique:companies,name,{{resourceId}}'),
+                ->creationRules('unique:master_companies,name')
+                ->updateRules('unique:master_companies,name,{{resourceId}}'),
 
             Text::make('ABBR'),
 

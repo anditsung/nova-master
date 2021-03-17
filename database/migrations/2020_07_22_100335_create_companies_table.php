@@ -17,6 +17,8 @@ class CreateCompaniesTable extends Migration
             $table->id();
             $table->string('name')->index();
             $table->string('abbr')->index();
+            $table->string('wl_id')->nullable();
+            $table->string('wl_reporter_id')->nullable();
             $table->boolean('is_active');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

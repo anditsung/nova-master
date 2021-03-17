@@ -18,11 +18,15 @@ class Company extends Model
     protected $table = 'master_companies';
 
     protected $no_upper = [
+        'wl_id',
+        'wl_reporter_id',
     ];
 
     protected $fillable = [
         'name',
         'abbr',
+        'wl_id',
+        'wl_reporter_id',
         'is_active',
         'user_id',
     ];

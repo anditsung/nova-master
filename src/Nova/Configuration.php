@@ -60,8 +60,8 @@ class Configuration extends Resource
 
             Text::make('Name')
                 ->rules('required')
-                ->creationRules('unique:configurations,name')
-                ->updateRules('unique:configurations,name,{{resourceId}}'),
+                ->creationRules('unique:master_configurations,name')
+                ->updateRules('unique:master_configurations,name,{{resourceId}}'),
 
             Code::make('Config')
                 ->language('json'),
