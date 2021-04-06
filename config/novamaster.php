@@ -76,6 +76,7 @@ return [
         'types' => [
             1 => 'HOME',
             2 => 'OFFICE',
+            3 => 'BRANCH',
         ]
     ],
 
