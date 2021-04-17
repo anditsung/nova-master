@@ -71,6 +71,7 @@ return [
 
         'morph' => [
             \Tsung\NovaHumanResource\Nova\Person::class,
+            \Tsung\NovaMaster\Nova\Company::class,
         ],
 
         'types' => [
