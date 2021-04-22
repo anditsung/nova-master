@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Illuminate\Support\Str;
+use Laravel\Nova\Http\Requests\ResourceIndexRequest;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -86,8 +87,11 @@ class Address extends Resource
                 ->displayUsingLabels(),
 
             Textarea::make('Address')
-                ->displayUsing( function($address) {
-                    return Str::limit($address, 50);
+                ->displayUsing( function($address) use ($request) {
+                    if ($request instanceof ResourceIndexRequest) {
+                        return Str::limit($address, 50);
+                    }
+                    return $address;
                 })
                 ->showOnIndex()
                 ->alwaysShow()
