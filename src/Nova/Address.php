@@ -87,11 +87,11 @@ class Address extends Resource
                 ->displayUsingLabels(),
 
             Textarea::make('Address')
-                ->displayUsing( function($address) use ($request) {
+                ->displayUsing( function($value) use ($request) {
                     if ($request instanceof ResourceIndexRequest) {
-                        return Str::limit($address, 50);
+                        return Str::limit($value, 40);
                     }
-                    return $address;
+                    return $value;
                 })
                 ->showOnIndex()
                 ->alwaysShow()
