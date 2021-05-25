@@ -34,7 +34,7 @@ class Unit extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -43,6 +43,7 @@ class Unit extends Resource
      */
     public static $search = [
         'id',
+        'name'
     ];
 
     public static $group = "Master";
