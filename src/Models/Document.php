@@ -11,9 +11,12 @@ class Document extends Model
     protected $table = 'master_documents';
 
     protected $fillable = [
+        'document_type',
+        'document_id',
         'file',
         'original_name',
         'original_size',
+        'user_id',
     ];
 
     public function user() : BelongsTo
