@@ -10,10 +10,10 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Illuminate\Support\Str;
 use Laravel\Nova\Http\Requests\ResourceIndexRequest;
+use Tsung\NovaHumanResource\Models\Person;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -34,7 +34,13 @@ class Address extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = "id";
+    public function title()
+    {
+        if ($this->addresses instanceof Person) return $this->addresses->name;
+
+        return $this->title;
+    }
 
     /**
      * The columns that should be searched.
@@ -61,7 +67,7 @@ class Address extends Resource
     public function fields(Request $request)
     {
         return [
-            //ID::make(__('ID'), 'id')->sortable(),
+//            ID::make(__('ID'), 'id')->sortable(),
 
 //            $this->when($request instanceof ResourceDetailRequest, function() {
 //                return new Panel(

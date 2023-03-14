@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
+use Titasgailius\SearchRelations\SearchesRelations;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -17,6 +18,7 @@ class Bank extends Resource
 {
     use ResourceAuthorization;
     use ResourceRedirectIndex;
+    use SearchesRelations;
 
     /**
      * The model the resource corresponds to.
@@ -30,7 +32,12 @@ class Bank extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = "id";
+    public function title()
+    {
+        if ($this->banks) return $this->banks->name;
+        return $this->title;
+    }
 
     /**
      * The columns that should be searched.
@@ -72,7 +79,7 @@ class Bank extends Resource
 //            }),
 
             $this->when( !$request->viaResource, function() {
-                return MorphTo::make('Banks')
+                return MorphTo::make(__('Banks'), 'banks')
                     ->searchable()
                     ->types(config('novamaster.bank.morph'));
             }),

@@ -33,6 +33,12 @@ class Phone extends Resource
      * @var string
      */
     public static $title = 'name';
+    public function title()
+    {
+        if ($this->phones) return $this->phones->name;
+
+        return $this->title;
+    }
 
     /**
      * The columns that should be searched.
@@ -72,7 +78,7 @@ class Phone extends Resource
 //            }),
 
             $this->when( !$request->viaResource, function() {
-                return MorphTo::make('Phones')
+                return MorphTo::make(__('Phones'), 'phones')
                     ->searchable()
                     ->types(config('novamaster.phone.morph'));
             }),

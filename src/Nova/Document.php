@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
 use Laravel\Nova\Http\Requests\ResourceIndexRequest;
+use Tsung\NovaHumanResource\Models\Person;
 use Tsung\NovaUserManagement\Traits\ResourceAuthorization;
 use Tsung\NovaUserManagement\Traits\ResourceRedirectIndex;
 
@@ -37,6 +38,11 @@ class Document extends Resource
      * @var string
      */
     public static $title = 'id';
+    public function title()
+    {
+        if ($this->documents instanceof Person) return $this->documents->name;
+    }
+
 
     /**
      * The columns that should be searched.
@@ -76,23 +82,23 @@ class Document extends Resource
 //            }),
 
             $this->when( !$request->viaResource, function() {
-                return MorphTo::make('Documents')
+                return MorphTo::make(__('Documents'), 'documents')
                     ->searchable()
                     ->types(config('novamaster.document.morph'));
             }),
 
-            Text::make('Filename')
+            Text::make(__('Filename'))
                 ->displayUsing(function() {
                     return $this->original_name;
                 })->exceptOnForms(),
 
-            Text::make('Mime Type', function() {
+            Text::make(__('Mime Type'), function() {
                 return $this->mimeType;
             })->onlyOnDetail()->canSee(function() use ($request) {
                 return $request->user()->administrator();
             }),
 
-            File::make('File')
+            File::make(__('File'), 'file')
                 ->rules('required')
                 ->prunable()
                 ->store( function ( Request $request, $model ) {
@@ -116,7 +122,7 @@ class Document extends Resource
                 })
                 ->onlyOnForms(),
 
-            Image::make('File')
+            Image::make(__('File'), 'file')
                 ->hideFromIndex()
                 ->prunable()
                 ->storeOriginalName('original_name')
@@ -142,15 +148,15 @@ class Document extends Resource
             Hidden::make('user_id')
                 ->default($request->user()->id),
 
-            DateTime::make('Created At')
+            DateTime::make(__('Created At'), 'created_at')
                 ->format('DD MMMM Y, hh:mm:ss A')
                 ->onlyOnDetail(),
 
-            DateTime::make('Updated At')
+            DateTime::make(__('Updated At'), 'updated_at')
                 ->format('DD MMMM Y, hh:mm:ss A')
                 ->onlyOnDetail(),
 
-            BelongsTo::make("Created By", 'user', User::class)
+            BelongsTo::make(__("Created By"), 'user', User::class)
                 ->onlyOnDetail(),
         ];
     }
