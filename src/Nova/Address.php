@@ -52,6 +52,10 @@ class Address extends Resource
         'address',
     ];
 
+    public static $with = [
+        'addresses',
+    ];
+
     public static $group = "Master";
 
     public static $displayInNavigation = false;
