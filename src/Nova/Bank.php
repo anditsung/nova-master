@@ -49,6 +49,10 @@ class Bank extends Resource
         'account',
     ];
 
+    public static $with = [
+        'banks',
+    ];
+
     public static $group = 'Master';
 
     public static $displayInNavigation = false;

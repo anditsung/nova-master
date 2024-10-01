@@ -53,6 +53,10 @@ class Document extends Resource
         'original_name'
     ];
 
+    public static $with = [
+        'documents',
+    ];
+
     public static $group = "Master";
 
     public static $globallySearchable = false;

@@ -50,6 +50,10 @@ class Phone extends Resource
         'number',
     ];
 
+    public static $with = [
+        'phones',
+    ];
+
     public static $globallySearchable = false;
 
     public static $group = "Master";
